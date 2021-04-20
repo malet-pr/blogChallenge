@@ -14,8 +14,9 @@
 	<h2 class='text-center'> DETALLES DEL POST</h2>
 	
 	<div class="d-flex mt-5 justify-content-center">
+	
 		<div class="card text-center" style="width: 60%;">
-		  <img class="card-img-top" th:src="@{img/emoji.jpg}" alt="Card image">
+		  <img th:src="@{/img/emoji.png}" alt="Card image" style="width:20%" class="mx-auto d-block img-fluid"/>
 		  <div class="card-body">
 		    <h5 class="card-title" th:text="${post.title}">Card title</h5>
 		    <p class="card-text" th:text="'Creado el ' + ${#dates.format(post.creationDate, 'dd/MM/yyyy')}"></p>
