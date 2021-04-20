@@ -22,19 +22,15 @@
 						<div style="color:red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
 					</div>	
 					<div class="row">
-						<label>Cargar categoría</label>
+						<label>Asigne una categoría</label>
 						<input type="text" class="form-control" th:field="*{category}">
 					</div>
 					<div class="row">
-						<label>Cargar imagen</label>
-
+						<label>Cargue una imagen</label>
 					</div>	
 					<div class="row">
-						<label>Cargar fecha</label>
-					</div>
-					<div class="row">
 						<label>Escriba el texto</label>
-						<input type="text" class="form-control" th:field="*{body}">
+						<textarea class="form-control" th:field="*{body}"  rows="7" cols="50" maxLength=350></textarea>
 						<div style="color:red" th:if="${#fields.hasErrors('body')}" th:errors="*{body}"></div>
 					</div>											
 				</div>
