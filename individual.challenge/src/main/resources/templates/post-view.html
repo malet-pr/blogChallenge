@@ -20,6 +20,7 @@
 		  <div class="card-body">
 		    <h5 class="card-title" th:text="${post.title}">Card title</h5>
 		    <p class="card-text" th:text="'Creado el ' + ${#dates.format(post.creationDate, 'dd/MM/yyyy')}"></p>
+		    <p class="card-text" th:text="'Categoría: ' +${post.category}"></p>
 		    <p class="card-text" th:text="${post.body}"></p>
 		    <a th:href="@{/home}" class="btn btn-primary">Regresar</a>
 		 </div>
