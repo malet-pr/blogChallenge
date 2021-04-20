@@ -60,6 +60,18 @@ public class PostController  {
 		status.isComplete();
         return "redirect:/home";   
 	}
+	
+    @GetMapping("/deletePost/{id}")
+    public String deletePost(@PathVariable Long id) {
+        if (id >= 0) {
+            Post post = postService.getById(id);
+            if(post != null) {
+                postService.delete(id);
+            }
+        }
+        return "redirect:/home";
+    }
+
 
 	
 }
