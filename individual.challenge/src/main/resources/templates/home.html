@@ -10,7 +10,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
-	<h2>LISTA DE POSTS</h2>
+	<h2 class='text-center'>LISTA DE POSTS</h2>
 	<div class="container">		
 		<div class="row">
 			<table class="table table-hover" th:if="${!posts.empty}">	
@@ -24,9 +24,9 @@
 					<tr th:each="post : ${posts}">	
 						<td th:text="${post.title}"></td>
 						<td>
+							<a class="btn btn-primary btn-sm" th:href="@{/posts/{id} (id=${post.id})}">Detalles</a> 
 						    <a class="btn btn-warning btn-sm" th:if="${post.id} != null" th:href="@{/editPost/} + ${post.id}">Editar</a>
 						    <a class="btn btn-danger btn-sm" th:if="${post.id} != null" th:href="@{/deletePost/} + ${post.id}">Borrar</a>
-							<a class="btn btn-primary btn-sm" th:href="@{/viewPostDetails/{id} (id=${post.id})}">Detalles</a> 
 						</td>
 					</tr>
 				</tbody>

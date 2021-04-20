@@ -9,21 +9,20 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
-<body>
-	<div class="container">
-		<div class="row">
-				<h2> DETALLES DEL POST</h2>
-		</div>		
-		<div>
-			<a th:href="@{/home}" class="btn btn-secondary">Regresar</a>
-		</div>
-		<br><br>
-		<div>
-			<span th:text="${post.title}"></span>
-			<br>
-			<span th:text="${post.body}"></span>
-		</div>
-
+<body>	
+	
+	<h2 class='text-center'> DETALLES DEL POST</h2>
+	
+	<div class="d-flex mt-5 justify-content-center">
+		<div class="card text-center" style="width: 60%;">
+		  <img class="card-img-top" th:src="@{img/emoji.jpg}" alt="Card image">
+		  <div class="card-body">
+		    <h5 class="card-title" th:text="${post.title}">Card title</h5>
+		    <p class="card-text" th:text="'Creado el ' + ${#dates.format(post.creationDate, 'dd/MM/yyyy')}"></p>
+		    <p class="card-text" th:text="${post.body}"></p>
+		    <a th:href="@{/home}" class="btn btn-primary">Regresar</a>
+		 </div>
 	</div>
+	
 </body>
 </html>

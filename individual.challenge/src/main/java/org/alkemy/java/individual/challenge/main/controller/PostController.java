@@ -25,18 +25,22 @@ public class PostController  {
     EntityManager em;
 	
     @GetMapping({"/","/home","/index","/posts"})
-    public String getHomePage(Model model) {
+    public String getPosts(Model model) {
     	List<Post> posts = postService.getAll();
         model.addAttribute("posts", posts);
         return "home";
     }
     
-	@GetMapping({"/viewPostDetails/{id}"})
-	public String viewPostDetails(@PathVariable Long id, Model model) {   	
+	@GetMapping({"/posts/{id}"})
+	public String viewPostDetails(@PathVariable Long id, Model model) { 
 		Post post = postService.getById(id);
+		if(post==null) {
+			return "error-500";
+		}
 		model.addAttribute("post", post);
 		return "post-view";
 	}
 
 	
 }
+
