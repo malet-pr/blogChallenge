@@ -31,6 +31,12 @@ public class PostController  {
         return "home";
     }
     
+	@GetMapping({"/viewPostDetails/{id}"})
+	public String viewPostDetails(@PathVariable Long id, Model model) {   	
+		Post post = postService.getById(id);
+		model.addAttribute("post", post);
+		return "post-view";
+	}
 
 	
 }
