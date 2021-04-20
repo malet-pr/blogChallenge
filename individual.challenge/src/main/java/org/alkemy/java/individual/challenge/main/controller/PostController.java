@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @SessionAttributes("post")
@@ -72,6 +73,18 @@ public class PostController  {
         return "redirect:/home";
     }
 
+    
+    @GetMapping("/editPost/{id}")
+    public String editPost(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+        Post post = null;
+        if(id >= 0) {
+            post = postService.getById(id);
+            if(post != null) {
+                return "edit-post-form";
+            }
+        }
+        return "redirect:/home";
+    }
 
 	
 }
