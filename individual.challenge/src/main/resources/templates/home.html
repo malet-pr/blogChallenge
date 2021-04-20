@@ -14,7 +14,6 @@
 	<div class="container">		
 		<div class="row">
 			<table class="table table-hover" th:if="${!posts.empty}">	
-			<input type="hidden" th:field="*{id}">
 				<thead>
 					<tr>
 						<th scope="col">Título</th>
@@ -25,9 +24,9 @@
 					<tr th:each="post : ${posts}">	
 						<td th:text="${post.title}"></td>
 						<td>
-						    <a class="btn btn-warning btn-sm" th:if="${post.id} != null" th:href="@{/editPost/} + ${course.id}">Editar</a>
-						    <a class="btn btn-danger btn-sm" th:if="${post.id} != null" th:href="@{/deletePost/} + ${course.id}">Borrar</a>
-							<a class="btn btn-primary btn-sm" th:href="@{/viewPost/{id} (id=${post.id})}">Ver</a> 
+						    <a class="btn btn-warning btn-sm" th:if="${post.id} != null" th:href="@{/editPost/} + ${post.id}">Editar</a>
+						    <a class="btn btn-danger btn-sm" th:if="${post.id} != null" th:href="@{/deletePost/} + ${post.id}">Borrar</a>
+							<a class="btn btn-primary btn-sm" th:href="@{/viewPostDetails/{id} (id=${post.id})}">Detalles</a> 
 						</td>
 					</tr>
 				</tbody>

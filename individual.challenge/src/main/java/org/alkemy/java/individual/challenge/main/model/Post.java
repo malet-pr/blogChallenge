@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 
-
 @Entity
 @Table(name = "posts")
 public class Post implements Serializable{
@@ -33,18 +32,17 @@ public class Post implements Serializable{
     @NotNull(message = "El título no puede estar vacío.")
     @Column(name = "title", nullable = false)
     private String title;
+
+    @NotEmpty(message = "El artículo debe tener algún contenido.")
+    @Column(name = "body", length=350, nullable = false)
+    private String body;
     
     @Column(name = "category")
     private String category;
 
-    @NotEmpty(message = "El artículo debe tener algún contenido.")
-    @Column(name = "body", columnDefinition = "TEXT", nullable = false)
-    private String body;
-
     @Column(name = "image")
     private Blob image;
     
-    /// VER SI ESTO QUEDA ASÍ  ///
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date", nullable = false, updatable = false)
@@ -60,13 +58,13 @@ public class Post implements Serializable{
 	 * @param image
 	 * @param creationDate
 	 */
-	public Post(Long id, String title, String category, String body, Blob image, Date creationDate /*ver ésto*/) {
+	public Post(Long id, String title, String category, String body, Blob image, Date creationDate) {
 		this.id = id;
 		this.title = title;
 		this.category = category;
 		this.body = body;
 		this.image = image;
-		this.creationDate = creationDate;  // ver ésto
+		this.creationDate = creationDate; 
 	}
 
 	public Long getId() {
@@ -85,20 +83,20 @@ public class Post implements Serializable{
 		this.title = title;
 	}
 
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
 	public String getBody() {
 		return body;
 	}
 
 	public void setBody(String body) {
 		this.body = body;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	public Blob getImage() {
@@ -108,8 +106,6 @@ public class Post implements Serializable{
 	public void setImage(Blob image) {
 		this.image = image;
 	}
-	
-	// ver estos dos
 
 	public Date getCreationDate() {
 		return creationDate;
@@ -118,5 +114,6 @@ public class Post implements Serializable{
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
+
 
 }
