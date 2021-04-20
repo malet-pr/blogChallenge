@@ -114,6 +114,5 @@ public class Post implements Serializable{
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-
-
+		
 }
