@@ -23,12 +23,12 @@
 	        <div class="collapse navbar-collapse" id="navbarResponsive">
 	            <ul class="navbar-nav ml-auto">
 	                <li class="nav-item">
-	                    <a class="nav-link" href="home">LISTA DE POSTS
+	                    <a class="nav-link" href="/home">LISTA DE POSTS
 	                        <span class="sr-only">(current)</span>
 	                    </a>
 	                </li>
 	                <li class="nav-item">
-	                    <a class="nav-link" href="addPost">CREAR NUEVO POST</a>
+	                    <a class="nav-link" href="/addPost">CREAR NUEVO POST</a>
 	                </li>
 	            </ul>
 	        </div>
@@ -37,6 +37,7 @@
 	
 	<div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
 	<div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
+	
 	<h2 class='text-center'> DETALLES DEL POST</h2>
 	
 	<div class="d-flex mt-5 justify-content-center">
