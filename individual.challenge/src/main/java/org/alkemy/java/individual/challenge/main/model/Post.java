@@ -47,6 +47,10 @@ public class Post implements Serializable{
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Date creationDate;
     
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "removed_at")
+    private Date removedAt;
+    
     public Post() {}
 
 	/**
@@ -56,14 +60,16 @@ public class Post implements Serializable{
 	 * @param body
 	 * @param image
 	 * @param creationDate
+	 * @param removedAt
 	 */
-	public Post(Long id, String title, String category, String body, String image, Date creationDate) {
+	public Post(Long id, String title, String category, String body, String image, Date creationDate, Date removedAt) {
 		this.id = id;
 		this.title = title;
 		this.category = category;
 		this.body = body;
 		this.image = image;
 		this.creationDate = creationDate; 
+		this.removedAt = removedAt;
 	}
 
 	public Long getId() {
@@ -113,5 +119,14 @@ public class Post implements Serializable{
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
+
+	public Date getRemovedAt() {
+		return removedAt;
+	}
+
+	public void setRemovedAt(Date removedAt) {
+		this.removedAt = removedAt;
+	}
 		
+	
 }
