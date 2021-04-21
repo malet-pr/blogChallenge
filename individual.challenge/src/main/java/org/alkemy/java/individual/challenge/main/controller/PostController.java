@@ -1,5 +1,9 @@
 package org.alkemy.java.individual.challenge.main.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,13 +16,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -56,9 +61,21 @@ public class PostController  {
     }
 
 	@PostMapping(value="/posts")
-    public String addCourse(@Valid @ModelAttribute Post post, BindingResult bindingResult, SessionStatus status) {	 
+    public String addCourse(@Valid @ModelAttribute Post post, BindingResult bindingResult, @RequestParam("file") MultipartFile image, SessionStatus status) {	 
 		if(bindingResult.hasErrors()) {	    
 			return "add-post-form";
+		}
+		if(!image.isEmpty()) {
+			Path relativePath = Paths.get("src//main//resources//static//img");
+			String rootPath = relativePath.toFile().getAbsolutePath();
+			try {
+				byte[] bytes = image.getBytes();
+				Path fullPath = Paths.get(rootPath + "//" + image.getOriginalFilename());
+				Files.write(fullPath, bytes);
+				post.setImage(image.getOriginalFilename());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		postService.save(post);
 		status.isComplete();

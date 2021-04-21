@@ -14,7 +14,7 @@
 	<div class="container">
 		<h2 class="text-center">AGREGAR UN POST</h2>
 		<div class="col-sm-12">
-			<form action="#" th:action="@{/posts}" th:object="${post}" method="post">
+			<form action="#" th:action="@{/posts}" th:object="${post}" method="post" enctype="multipart/form-data">
 				<div class="form-group">
 					<div class="row">
 						<label>Agregue un título</label>
@@ -27,6 +27,7 @@
 					</div>
 					<div class="row">
 						<label>Cargue una imagen</label>
+						<input type="file" name="file" class="form-control" />
 					</div>	
 					<div class="row">
 						<label>Escriba el texto</label>

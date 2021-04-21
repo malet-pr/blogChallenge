@@ -1,7 +1,6 @@
 package org.alkemy.java.individual.challenge.main.model;
 
 import java.io.Serializable;
-import java.sql.Blob;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,7 +40,7 @@ public class Post implements Serializable{
     private String category;
 
     @Column(name = "image")
-    private Blob image;
+    private String image;
     
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
@@ -58,7 +57,7 @@ public class Post implements Serializable{
 	 * @param image
 	 * @param creationDate
 	 */
-	public Post(Long id, String title, String category, String body, Blob image, Date creationDate) {
+	public Post(Long id, String title, String category, String body, String image, Date creationDate) {
 		this.id = id;
 		this.title = title;
 		this.category = category;
@@ -99,11 +98,11 @@ public class Post implements Serializable{
 		this.category = category;
 	}
 
-	public Blob getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(Blob image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
