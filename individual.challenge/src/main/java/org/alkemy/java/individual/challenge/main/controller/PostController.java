@@ -2,9 +2,6 @@ package org.alkemy.java.individual.challenge.main.controller;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import javax.validation.Valid;
 import org.alkemy.java.individual.challenge.main.model.Post;
@@ -46,10 +43,11 @@ public class PostController  {
     }
     
 	@GetMapping({"/posts/{id}"})
-	public String viewPostDetails(@PathVariable Long id, Model model) { 
+	public String viewPostDetails(@PathVariable Long id, Model model, RedirectAttributes redirAttr) { 
 		Post post = postService.getById(id);
 		if(post==null) {
-			return "error-500";
+			redirAttr.addFlashAttribute("error", "El post no existe");
+			return "redirect:/home";
 		}
 		model.addAttribute("post", post);
 		return "post-view";
@@ -63,7 +61,8 @@ public class PostController  {
     }
 
 	@PostMapping(value="/posts")
-    public String addCourse(@Valid @ModelAttribute Post post, BindingResult bindingResult, @RequestParam("file") MultipartFile image, SessionStatus status) {	 
+    public String addCourse(@Valid @ModelAttribute Post post, BindingResult bindingResult, 
+    		@RequestParam("file") MultipartFile image, SessionStatus status, RedirectAttributes redirAttr) {	 
 		if(bindingResult.hasErrors()) {	    
 			return "add-post-form";
 		}
@@ -74,49 +73,59 @@ public class PostController  {
 			String uniqueFilename = null;
 			try {
 				uniqueFilename = uploadFileService.copy(image);
+				redirAttr.addFlashAttribute("success", "Archivo guardado con éxito");
 			} catch (IOException e) {
 				e.printStackTrace();
+				redirAttr.addFlashAttribute("error","No se pudo guardar el archivo" );
 			}
 			post.setImage(uniqueFilename);
 		}
 		postService.save(post);
 		status.isComplete();
+		redirAttr.addFlashAttribute("success", "Se guardó con éxito el post");
         return "redirect:/home";   
 	}
 	
     @RequestMapping(path="/deletePost/{id}", method = {RequestMethod.DELETE, RequestMethod.GET})
-    public String deletePost(@PathVariable Long id) {
+    public String deletePost(@PathVariable Long id, RedirectAttributes redirAttr) {
         if (id >= 0) {
             Post post = postService.getById(id);
             if(post != null) {
                 postService.delete(id);
+                redirAttr.addFlashAttribute("success","Se borró el post con éxito" );
+            } else {
+            	redirAttr.addFlashAttribute("error","El post no existe");
             }
-        }
+        } 
         return "redirect:/home";
     }
 
     
     @RequestMapping(path="/editPost/{id}", method = {RequestMethod.PATCH, RequestMethod.GET})
-    public String editPost(@PathVariable Long id, Model model) {
+    public String editPost(@PathVariable Long id, Model model, RedirectAttributes redirAttr) {
     	Post post = new Post();
         if(id > 0) {
             post = postService.getById(id);
             if(post != null) {
             	model.addAttribute("post", post);
+            	redirAttr.addFlashAttribute("success","Se editó el post con éxito" );
                 return "edit-post-form";
+            } else {
+            	redirAttr.addFlashAttribute("error","Ese post no existe" );
             }
         }
         return "redirect:/home";
     }
 
 	@GetMapping(value = "/images/{filename:.+}")
-	public ResponseEntity<Resource> displayImage(@PathVariable String filename) {
+	public ResponseEntity<Resource> displayImage(@PathVariable String filename, RedirectAttributes redirAttr) {
 		Resource resource = null;
 		try {
 			resource = uploadFileService.load(filename);
+			redirAttr.addFlashAttribute("success","Se cargó el archivo con éxito" );
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			redirAttr.addFlashAttribute("error","No se pudo cargar el archivo" );
 		}
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
