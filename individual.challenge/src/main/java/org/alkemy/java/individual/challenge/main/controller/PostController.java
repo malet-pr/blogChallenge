@@ -1,16 +1,19 @@
 package org.alkemy.java.individual.challenge.main.controller;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 import org.alkemy.java.individual.challenge.main.model.Post;
 import org.alkemy.java.individual.challenge.main.service.PostService;
+import org.alkemy.java.individual.challenge.main.service.UploadFileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,10 +35,9 @@ public class PostController  {
 	
 	@Autowired
 	private PostService postService;
+	@Autowired
+	private UploadFileService uploadFileService;
 
-	@PersistenceContext
-    EntityManager em;
-	
     @GetMapping({"/","/home","/index","/posts"})
     public String getPosts(Model model) {
     	List<Post> posts = postService.getAll();
@@ -66,16 +68,16 @@ public class PostController  {
 			return "add-post-form";
 		}
 		if(!image.isEmpty()) {
-			Path relativePath = Paths.get("src//main//resources//static//img");
-			String rootPath = relativePath.toFile().getAbsolutePath();
+			if(post.getId() != null && post.getId() > 0 && post.getImage() != null && post.getImage().length() > 0) {
+				uploadFileService.delete(post.getImage());
+			}
+			String uniqueFilename = null;
 			try {
-				byte[] bytes = image.getBytes();
-				Path fullPath = Paths.get(rootPath + "//" + image.getOriginalFilename());
-				Files.write(fullPath, bytes);
-				post.setImage(image.getOriginalFilename());
+				uniqueFilename = uploadFileService.copy(image);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			post.setImage(uniqueFilename);
 		}
 		postService.save(post);
 		status.isComplete();
@@ -95,17 +97,31 @@ public class PostController  {
 
     
     @RequestMapping(path="/editPost/{id}", method = {RequestMethod.PATCH, RequestMethod.GET})
-    public String editPost(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
-        Post post = null;
-        if(id >= 0) {
+    public String editPost(@PathVariable Long id, Model model) {
+    	Post post = new Post();
+        if(id > 0) {
             post = postService.getById(id);
             if(post != null) {
+            	model.addAttribute("post", post);
                 return "edit-post-form";
             }
         }
         return "redirect:/home";
     }
 
-	
+	@GetMapping(value = "/images/{filename:.+}")
+	public ResponseEntity<Resource> displayImage(@PathVariable String filename) {
+		Resource resource = null;
+		try {
+			resource = uploadFileService.load(filename);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
+	}
+
 }
 
