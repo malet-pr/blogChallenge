@@ -65,8 +65,7 @@ public class Post implements Serializable{
 		this.title = title;
 		this.category = category;
 		this.body = body;
-		this.image = image
-
+		this.image = image;
 	}
 
 	public Long getId() {
