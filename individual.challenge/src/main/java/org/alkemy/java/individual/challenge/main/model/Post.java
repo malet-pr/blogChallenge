@@ -59,17 +59,13 @@ public class Post implements Serializable{
 	 * @param category
 	 * @param body
 	 * @param image
-	 * @param creationDate
-	 * @param removedAt
 	 */
-	public Post(Long id, String title, String category, String body, String image, Date creationDate, Date removedAt) {
+	public Post(Long id, String title, String category, String body, String image) {
 		this.id = id;
 		this.title = title;
 		this.category = category;
 		this.body = body;
 		this.image = image;
-		this.creationDate = creationDate; 
-		this.removedAt = removedAt;
 	}
 
 	public Long getId() {
