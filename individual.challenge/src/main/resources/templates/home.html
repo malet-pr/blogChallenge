@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>HOME</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</head>
+<body>
+
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+	    <div class="container">
+	        <a class="navbar-brand" href="/">ALKEMY POST CHALLENGE</a>
+	        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+	                aria-controls="navbarResponsive"
+	                aria-expanded="false" aria-label="Toggle navigation">
+	            <span class="navbar-toggler-icon"></span>
+	        </button>
+	        <div class="collapse navbar-collapse" id="navbarResponsive">
+	            <ul class="navbar-nav ml-auto">
+	                <li class="nav-item active">
+	                    <a class="nav-link" href="/home">LISTA DE POSTS
+	                        <span class="sr-only">(current)</span>
+	                    </a>
+	                </li>
+	                <li class="nav-item">
+	                    <a class="nav-link" href="/addPost">CREAR NUEVO POST</a>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	</nav>
+	
+	<div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
+	<div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
+	
+	<div class="container">		
+		<div class="row">
+			<table class="table table-hover" th:if="${!posts.empty}">	
+				<thead>
+					<tr>
+						<th scope="col">Título</th>
+						<th scope="col">Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="post : ${posts}">	
+						<td th:text="${post.title}"></td>
+						<td>
+							<a class="btn btn-primary btn-sm" th:href="@{/posts/{id} (id=${post.id})}">Detalles</a> 
+						    <a class="btn btn-warning btn-sm" th:if="${post.id} != null" th:href="@{/editPost/} + ${post.id}">Editar</a>
+						    <a class="btn btn-danger btn-sm" th:if="${post.id} != null" th:href="@{/deletePost/} + ${post.id}">Borrar</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="row" th:if="${posts.empty}">
+			<h4>No Hay Nada Que Mostrar</h4>
+		</div>
+	</div>
+
+
+</body>
