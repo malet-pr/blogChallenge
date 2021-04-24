@@ -53,7 +53,8 @@
 					</div>
 					<div class="row">
 						<label>Cambie la imagen</label>
-						<input type="file" name="file" class="form-control" id="fileName" accept=".jpg,.jpeg,.png" onchange="validateFileType()"//>
+						<input type="file" name="file" class="form-control" id="fileName" accept=".jpg,.jpeg,.png" onchange="validateFileType()" />
+						<div style="color:red" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></div>
 					</div>	
 					<div class="row">
 						<label>Escriba el nuevo texto</label>

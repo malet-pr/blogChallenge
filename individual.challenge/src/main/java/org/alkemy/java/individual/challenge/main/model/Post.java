@@ -12,6 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -39,6 +40,7 @@ public class Post implements Serializable{
     @Column(name = "category")
     private String category;
 
+    @Pattern(regexp="([^\\s]+(\\.(?i)(jpe?g|png))$)", message="El archivo tiene que ser del tipo jpg/jpeg o png")
     @Column(name = "image")
     private String image;
     
@@ -52,7 +54,7 @@ public class Post implements Serializable{
     private Date removedAt;
     
     public Post() {}
-
+    
 	/**
 	 * @param id
 	 * @param title
