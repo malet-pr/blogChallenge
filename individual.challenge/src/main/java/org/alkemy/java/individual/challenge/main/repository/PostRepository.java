@@ -9,5 +9,4 @@ import org.alkemy.java.individual.challenge.main.model.Post;
 @SoftDelete
 public interface PostRepository extends JpaRepository<Post,Long> {
 
-
 }
