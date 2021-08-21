@@ -14,7 +14,7 @@
 	<name>blogApp</name>
 	<description>Alkemy&apos;s warm-up challenge</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>8</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -67,6 +67,16 @@
 	            <artifactId>maven-surefire-plugin</artifactId>
 	            <version>3.0.0-M3</version>
 	        </plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.1.2</version>
+				<configuration>
+				  <to>
+					<image>blog_app</image>
+				  </to>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
